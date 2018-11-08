@@ -16,6 +16,10 @@ final class Validator implements ValidatorInterface
 
     private $xsdCache = [];
 
+    /**
+     * @throws Exception\InvalidXmlStructureException
+     * @throws Exception\InvalidXsdStructureComplianceException
+     */
     public function assertValidXml(string $xml, string $type = self::XSD_FATTURA_ORDINARIA_LATEST): void
     {
         $dom = new DOMDocument($xml);
