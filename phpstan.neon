@@ -1,0 +1,11 @@
+includes:
+    - vendor/phpstan/phpstan/conf/config.levelmax.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    tmpDir: tmp/
+    paths:
+        - lib/
+        - tests/
+    ignoreErrors:
+        - '#Method SlamFatturaElettronica\\Tests\\ValidatorTest::getXmlContent\(\) should return string but returns string\|false#'
