@@ -20,10 +20,6 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-before_install:
-    - export INI=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    - echo memory_limit = -1 >> $INI
-
 install: wget -qO - https://github.com/Slamdunk/travis-scripts/raw/master/php-install.sh | sh
 
 script: wget -qO - https://github.com/Slamdunk/travis-scripts/raw/master/php-script.sh | sh
