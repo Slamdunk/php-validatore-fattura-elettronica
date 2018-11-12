@@ -20,7 +20,7 @@ final class Validator implements ValidatorInterface
      */
     public function assertValidXml($xml, $type = self::XSD_FATTURA_ORDINARIA_LATEST)
     {
-        $dom = new DOMDocument($xml);
+        $dom = new DOMDocument();
 
         \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) {
             throw new Exception\InvalidXmlStructureException($errstr, $errno, $errno, $errfile, $errline);
