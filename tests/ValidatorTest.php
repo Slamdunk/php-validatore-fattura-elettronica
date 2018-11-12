@@ -1,18 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SlamFatturaElettronica\Tests;
 
-use PHPUnit\Framework\TestCase;
-use SlamFatturaElettronica\Exception\InvalidXmlStructureException;
-use SlamFatturaElettronica\Exception\InvalidXsdStructureComplianceException;
+use PHPUnit_Framework_TestCase;
 use SlamFatturaElettronica\Validator;
 
 /**
  * @covers \SlamFatturaElettronica\Validator
  */
-final class ValidatorTest extends TestCase
+final class ValidatorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Validator
@@ -27,7 +23,7 @@ final class ValidatorTest extends TestCase
     /**
      * @dataProvider getValidXmls
      */
-    public function testAssertValidXml(string $filename): void
+    public function testAssertValidXml($filename)
     {
         $xml = $this->getXmlContent($filename);
 
@@ -36,21 +32,21 @@ final class ValidatorTest extends TestCase
         static::assertTrue(true);
     }
 
-    public function getValidXmls(): array
+    public function getValidXmls()
     {
-        return [
-            ['ok_IT01234567890_FPA01.xml'],
-            ['ok_IT01234567890_FPA02.xml'],
-            ['ok_IT01234567890_FPA03.xml'],
-            ['ok_IT01234567890_FPR01.xml'],
-            ['ok_IT01234567890_FPR02.xml'],
-            ['ok_IT01234567890_FPR03.xml'],
-            ['ok_ITHVQWPH73P42H501Y_00023.xml'],
-            ['ok_ITHVQWPH73P42H501Y_X0024.xml'],
-        ];
+        return array(
+            array('ok_IT01234567890_FPA01.xml'),
+            array('ok_IT01234567890_FPA02.xml'),
+            array('ok_IT01234567890_FPA03.xml'),
+            array('ok_IT01234567890_FPR01.xml'),
+            array('ok_IT01234567890_FPR02.xml'),
+            array('ok_IT01234567890_FPR03.xml'),
+            array('ok_ITHVQWPH73P42H501Y_00023.xml'),
+            array('ok_ITHVQWPH73P42H501Y_X0024.xml'),
+        );
     }
 
-    public function testAssertValidXmlWithType(): void
+    public function testAssertValidXmlWithType()
     {
         static::markTestIncomplete('Missing valid example for Fattura Semplificata');
 
@@ -61,25 +57,25 @@ final class ValidatorTest extends TestCase
         static::assertTrue(true);
     }
 
-    public function testAssertInvalidXml(): void
+    public function testAssertInvalidXml()
     {
         $xml = $this->getXmlContent('invalid_xml_tags.xml');
 
-        static::expectException(InvalidXmlStructureException::class);
+        static::setExpectedException('SlamFatturaElettronica\\Exception\\InvalidXmlStructureException');
 
         $this->validator->assertValidXml($xml);
     }
 
-    public function testAssertInvalidXsdStructureCompliance(): void
+    public function testAssertInvalidXsdStructureCompliance()
     {
         $xml = $this->getXmlContent('invalid_xsd_structure_compliance.xml');
 
-        static::expectException(InvalidXsdStructureComplianceException::class);
+        static::setExpectedException('SlamFatturaElettronica\\Exception\\InvalidXsdStructureComplianceException');
 
         $this->validator->assertValidXml($xml);
     }
 
-    private function getXmlContent(string $filename): string
+    private function getXmlContent($filename)
     {
         return \file_get_contents(__DIR__ . '/TestAsset/' . $filename);
     }

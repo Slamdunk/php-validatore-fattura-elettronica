@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SlamFatturaElettronica;
 
 use DOMDocument;
@@ -14,13 +12,13 @@ final class Validator implements ValidatorInterface
     const XSD_FATTURA_SEMPLIFICATA_1_0      = 'Schema_VFSM10.xsd';
     const XSD_FATTURA_SEMPLIFICATA_LATEST   = 'Schema_VFSM10.xsd';
 
-    private $xsdCache = [];
+    private $xsdCache = array();
 
     /**
      * @throws Exception\InvalidXmlStructureException
      * @throws Exception\InvalidXsdStructureComplianceException
      */
-    public function assertValidXml(string $xml, string $type = self::XSD_FATTURA_ORDINARIA_LATEST): void
+    public function assertValidXml($xml, $type = self::XSD_FATTURA_ORDINARIA_LATEST)
     {
         $dom = new DOMDocument($xml);
 
@@ -39,7 +37,7 @@ final class Validator implements ValidatorInterface
         \restore_error_handler();
     }
 
-    private function getXsd(string $type): string
+    private function getXsd($type)
     {
         if (! isset($this->xsdCache[$type])) {
             $xsdFilename = \dirname(__DIR__) . '/xsd/' . $type;
