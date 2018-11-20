@@ -4,6 +4,8 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/Slamdunk/php-validatore-fattura-elettronica/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Slamdunk/php-validatore-fattura-elettronica/?branch=master)
 [![Packagist](https://img.shields.io/packagist/v/slam/php-validatore-fattura-elettronica.svg)](https://packagist.org/packages/slam/php-validatore-fattura-elettronica)
 
+**WARNING**: This package only works for _ITALIAN_ standards!
+
 ## Installazione
 
 ```
