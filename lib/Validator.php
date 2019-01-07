@@ -12,6 +12,8 @@ final class Validator implements ValidatorInterface
     const XSD_FATTURA_SEMPLIFICATA_1_0      = 'Schema_VFSM10.xsd';
     const XSD_FATTURA_SEMPLIFICATA_LATEST   = 'Schema_VFSM10.xsd';
 
+    const XSD_MESSAGGI                      = 'MessaggiTypes_v1.1.xsd';
+
     private $xsdCache = array();
 
     /**
