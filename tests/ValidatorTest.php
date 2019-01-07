@@ -84,7 +84,7 @@ final class ValidatorTest extends PHPUnit_Framework_TestCase
     {
         $xml = $this->getXmlContent('ok_IT01234567890_11111_EC_001.xml');
 
-        $this->validator->assertValidXml($xml, Validator::XSD_MESSAGGI);
+        $this->validator->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
 
         static::assertTrue(true);
     }
@@ -95,6 +95,6 @@ final class ValidatorTest extends PHPUnit_Framework_TestCase
 
         static::setExpectedException('SlamFatturaElettronica\\Exception\\InvalidXsdStructureComplianceException');
 
-        $this->validator->assertValidXml($xml, Validator::XSD_MESSAGGI);
+        $this->validator->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
     }
 }

@@ -32,7 +32,7 @@ $feValidator->assertValidXml('<xml ...>');
 use SlamFatturaElettronica\Validator;
 
 $feValidator = new Validator();
-$feValidator->assertValidXml('<xml ...>', Validator::XSD_MESSAGGI);
+$feValidator->assertValidXml('<xml ...>', Validator::XSD_MESSAGGI_LATEST);
 ```
 
 ## Riferimenti
