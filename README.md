@@ -26,6 +26,15 @@ $feValidator->assertValidXml('<xml ...>');
 //      SlamFatturaElettronica\Exception\InvalidXsdStructureComplianceException
 ```
 
+### Notifiche
+
+```php
+use SlamFatturaElettronica\Validator;
+
+$feValidator = new Validator();
+$feValidator->assertValidXml('<xml ...>', Validator::XSD_MESSAGGI_LATEST);
+```
+
 ## Riferimenti
 
 I due siti di riferimento sono al momento:
