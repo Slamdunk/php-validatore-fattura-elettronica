@@ -26,19 +26,29 @@ final class Validator implements ValidatorInterface
     {
         $dom = new DOMDocument();
 
-        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) {
-            throw new Exception\InvalidXmlStructureException($errstr, $errno, $errno, $errfile, $errline);
+        $errorArguments = null;
+        \set_error_handler(static function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $errorArguments) {
+            $errorArguments = func_get_args();
         });
         $dom->loadXML($xml);
         \restore_error_handler();
 
+        if (null !== $errorArguments) {
+            throw new Exception\InvalidXmlStructureException($errorArguments[1], $errorArguments[0], $errorArguments[0], $errorArguments[2], $errorArguments[3]);
+        }
+
         $xsd = $this->getXsd($type);
 
-        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) {
-            throw new Exception\InvalidXsdStructureComplianceException($errstr, $errno, $errno, $errfile, $errline);
+        $errorArguments = null;
+        \set_error_handler(static function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $errorArguments) {
+            $errorArguments = func_get_args();
         });
         $dom->schemaValidateSource($xsd);
         \restore_error_handler();
+
+        if (null !== $errorArguments) {
+            throw new Exception\InvalidXsdStructureComplianceException($errorArguments[1], $errorArguments[0], $errorArguments[0], $errorArguments[2], $errorArguments[3]);
+        }
     }
 
     private function getXsd($type)
