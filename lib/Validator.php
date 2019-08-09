@@ -27,7 +27,7 @@ final class Validator implements ValidatorInterface
         $dom = new DOMDocument();
 
         $errorArguments = null;
-        \set_error_handler(static function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $errorArguments) {
+        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $errorArguments) {
             $errorArguments = func_get_args();
         });
         $dom->loadXML($xml);
@@ -40,7 +40,7 @@ final class Validator implements ValidatorInterface
         $xsd = $this->getXsd($type);
 
         $errorArguments = null;
-        \set_error_handler(static function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $errorArguments) {
+        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $errorArguments) {
             $errorArguments = func_get_args();
         });
         $dom->schemaValidateSource($xsd);
