@@ -43,6 +43,7 @@ final class ValidatorTest extends PHPUnit_Framework_TestCase
             array('ok_IT01234567890_FPR03.xml'),
             array('ok_ITHVQWPH73P42H501Y_00023.xml'),
             array('ok_ITHVQWPH73P42H501Y_X0024.xml'),
+            array('ok_bug_attribute_with_space.xml'),
         );
     }
 
