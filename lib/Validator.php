@@ -25,30 +25,34 @@ final class Validator implements ValidatorInterface
     public function assertValidXml($xml, $type = self::XSD_FATTURA_ORDINARIA_LATEST)
     {
         $dom = new DOMDocument();
-
-        $errorArguments = null;
-        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $errorArguments) {
-            $errorArguments = func_get_args();
-        });
-        $dom->loadXML($xml);
-        \restore_error_handler();
-
-        if (null !== $errorArguments) {
-            throw new Exception\InvalidXmlStructureException($errorArguments[1], $errorArguments[0], $errorArguments[0], $errorArguments[2], $errorArguments[3]);
-        }
-
+        $dom->recover = true;
+        $dom->loadXML($xml, \LIBXML_NOERROR);
         $xsd = $this->getXsd($type);
 
-        $errorArguments = null;
-        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $errorArguments) {
-            $errorArguments = func_get_args();
+        $xsdErrorArguments = null;
+        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $xsdErrorArguments) {
+            $xsdErrorArguments = func_get_args();
         });
         $dom->schemaValidateSource($xsd);
         \restore_error_handler();
 
-        if (null !== $errorArguments) {
-            throw new Exception\InvalidXsdStructureComplianceException($errorArguments[1], $errorArguments[0], $errorArguments[0], $errorArguments[2], $errorArguments[3]);
+        if (null === $xsdErrorArguments) {
+            return;
         }
+
+        $dom = new DOMDocument();
+        $xmlErrorArguments = null;
+        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $xmlErrorArguments) {
+            $xmlErrorArguments = func_get_args();
+        });
+        $dom->loadXML($xml);
+        \restore_error_handler();
+
+        if (null !== $xmlErrorArguments) {
+            throw new Exception\InvalidXmlStructureException($xmlErrorArguments[1], $xmlErrorArguments[0], $xmlErrorArguments[0], $xmlErrorArguments[2], $xmlErrorArguments[3]);
+        }
+
+        throw new Exception\InvalidXsdStructureComplianceException($xsdErrorArguments[1], $xsdErrorArguments[0], $xsdErrorArguments[0], $xsdErrorArguments[2], $xsdErrorArguments[3]);
     }
 
     private function getXsd($type)
