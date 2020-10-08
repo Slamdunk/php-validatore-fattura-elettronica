@@ -7,7 +7,7 @@ use DOMDocument;
 final class Validator implements ValidatorInterface
 {
     const XSD_FATTURA_ORDINARIA_1_2         = 'Schema_VFPR12.xsd';
-    const XSD_FATTURA_ORDINARIA_LATEST      = 'Schema_VFPR12.xsd';
+    const XSD_FATTURA_ORDINARIA_LATEST      = 'Schema_VFPR1.2.1a.xsd';
 
     const XSD_FATTURA_SEMPLIFICATA_1_0      = 'Schema_VFSM10.xsd';
     const XSD_FATTURA_SEMPLIFICATA_LATEST   = 'Schema_VFSM10.xsd';
