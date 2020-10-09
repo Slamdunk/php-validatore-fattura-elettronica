@@ -9,7 +9,7 @@
 <ProgressivoInvio>00001</ProgressivoInvio> 
 <FormatoTrasmissione>FPR12</FormatoTrasmissione> 
 <CodiceDestinatario>0000000</CodiceDestinatario> 
-<PECDestinatario>betagamma@pec.it</PECDestinatario> 
+<PECDestinatario>betagamma@pec-prova.it</PECDestinatario>
 </DatiTrasmissione>
 <CedentePrestatore>
 <DatiAnagrafici>

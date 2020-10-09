@@ -46,3 +46,27 @@ Gli XSD usati da questa libreria sono quelli presi dal primo dei due siti,
 ovvero `www.agenziaentrate.gov.it`, che a dispetto del numero di versione
 esplicitato sembra quello più aggiornato (vedi ad esempio tra i tipi di
 documento la differenza su `Autofattura`).
+
+## Validazione Email in versione `1.2.1`
+
+La versione `1.2.1` introduce una regex per la validazione delle email, che tuttavia è [costruita male](https://github.com/Slamdunk/php-validatore-fattura-elettronica/issues/11#issuecomment-706079124).
+Visto che la finalità di questa libreria è di più ampio respiro, è stata sovrascritta la regex delle email
+con una più permissiva. La validazione della mail è in capo all'utente:
+
+```diff
+diff --git a/xsd/Schema_VFPR121a.xsd b/xsd/Schema_VFPR121a.xsd
+index e999199..fa5696b 100644
+--- a/xsd/Schema_VFPR121a.xsd
++++ b/xsd/Schema_VFPR121a.xsd
+@@ -1364,8 +1364,9 @@
+   </xs:simpleType>
+   <xs:simpleType name="EmailType">
+     <xs:restriction base="xs:token">
++      <xs:minLength value="7" />
+       <xs:maxLength value="256" />
+-      <xs:pattern value="([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|&quot;(\[\]!#-[^-~ \t]|(\\[\t -~]))+&quot;)@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*\])" />
++      <xs:pattern value=".+@.+[.]+.+" />
+     </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="EmailContattiType">
+```
