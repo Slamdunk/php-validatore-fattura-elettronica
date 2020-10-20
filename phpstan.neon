@@ -1,0 +1,8 @@
+includes:
+    - phar://phpstan.phar/conf/config.levelmax.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    paths:
+        - lib/
+        - tests/

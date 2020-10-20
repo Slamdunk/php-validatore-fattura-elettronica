@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SlamFatturaElettronica\Exception;
 
-final class InvalidXmlStructureException extends \ErrorException implements ExceptionInterface
+use ErrorException;
+
+final class InvalidXmlStructureException extends ErrorException implements ExceptionInterface
 {
 }
