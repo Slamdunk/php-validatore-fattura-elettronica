@@ -1,16 +1,20 @@
+<?xml version="1.0"?>
 <phpunit
-    bootstrap="./vendor/autoload.php"
-    backupGlobals="false"
-    colors="true"
-    verbose="true">
-
-    <testsuite name="SlamFatturaElettronica">
-        <directory>./tests</directory>
-    </testsuite>
-
-    <filter>
-        <whitelist>
-            <directory suffix=".php">./lib</directory>
-        </whitelist>
-    </filter>
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        bootstrap="./vendor/autoload.php"
+        colors="true"
+        verbose="true"
+        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+>
+  <coverage>
+    <include>
+      <directory suffix=".php">./lib</directory>
+    </include>
+    <report>
+      <text outputFile="php://stdout" showOnlySummary="true"/>
+    </report>
+  </coverage>
+  <testsuite name="SlamFatturaElettronica">
+    <directory>./tests</directory>
+  </testsuite>
 </phpunit>

@@ -1,38 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SlamFatturaElettronica;
 
 use DOMDocument;
 
 final class Validator implements ValidatorInterface
 {
-    const XSD_FATTURA_ORDINARIA_1_2         = 'Schema_VFPR12.xsd';
-    const XSD_FATTURA_ORDINARIA_1_2_1       = 'Schema_VFPR121a.xsd';
-    const XSD_FATTURA_ORDINARIA_LATEST      = 'Schema_VFPR121a.xsd';
+    public const XSD_FATTURA_ORDINARIA_1_2         = 'Schema_VFPR12.xsd';
+    public const XSD_FATTURA_ORDINARIA_1_2_1       = 'Schema_VFPR121a.xsd';
+    public const XSD_FATTURA_ORDINARIA_LATEST      = 'Schema_VFPR121a.xsd';
 
-    const XSD_FATTURA_SEMPLIFICATA_1_0      = 'Schema_VFSM10.xsd';
-    const XSD_FATTURA_SEMPLIFICATA_LATEST   = 'Schema_VFSM10.xsd';
+    public const XSD_FATTURA_SEMPLIFICATA_1_0      = 'Schema_VFSM10.xsd';
+    public const XSD_FATTURA_SEMPLIFICATA_LATEST   = 'Schema_VFSM10.xsd';
 
-    const XSD_MESSAGGI_1_0                  = 'MessaggiFatturaTypes_v1.0.xsd';
-    const XSD_MESSAGGI_1_1                  = 'MessaggiTypes_v1.1.xsd';
-    const XSD_MESSAGGI_LATEST               = 'MessaggiTypes_v1.1.xsd';
+    public const XSD_MESSAGGI_1_0                  = 'MessaggiFatturaTypes_v1.0.xsd';
+    public const XSD_MESSAGGI_1_1                  = 'MessaggiTypes_v1.1.xsd';
+    public const XSD_MESSAGGI_LATEST               = 'MessaggiTypes_v1.1.xsd';
 
-    private $xsdCache = array();
+    /**
+     * @var array<string, string>
+     */
+    private array $xsdCache = [];
 
     /**
      * @throws Exception\InvalidXmlStructureException
      * @throws Exception\InvalidXsdStructureComplianceException
      */
-    public function assertValidXml($xml, $type = self::XSD_FATTURA_ORDINARIA_LATEST)
+    public function assertValidXml(string $xml, string $type = self::XSD_FATTURA_ORDINARIA_LATEST): void
     {
-        $dom = new DOMDocument();
+        $dom          = new DOMDocument();
         $dom->recover = true;
         $dom->loadXML($xml, \LIBXML_NOERROR);
         $xsd = $this->getXsd($type);
 
         $xsdErrorArguments = null;
-        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $xsdErrorArguments) {
-            $xsdErrorArguments = func_get_args();
+        \set_error_handler(static function (int $errno, string $errstr = '', string $errfile = '', int $errline = 0) use (& $xsdErrorArguments): bool {
+            $xsdErrorArguments = \func_get_args();
+
+            return true;
         });
         $dom->schemaValidateSource($xsd);
         \restore_error_handler();
@@ -41,10 +48,12 @@ final class Validator implements ValidatorInterface
             return;
         }
 
-        $dom = new DOMDocument();
+        $dom               = new DOMDocument();
         $xmlErrorArguments = null;
-        \set_error_handler(function ($errno, $errstr = '', $errfile = '', $errline = 0) use (& $xmlErrorArguments) {
-            $xmlErrorArguments = func_get_args();
+        \set_error_handler(static function (int $errno, string $errstr = '', string $errfile = '', int $errline = 0) use (& $xmlErrorArguments): bool {
+            $xmlErrorArguments = \func_get_args();
+
+            return true;
         });
         $dom->loadXML($xml);
         \restore_error_handler();
@@ -56,7 +65,7 @@ final class Validator implements ValidatorInterface
         throw new Exception\InvalidXsdStructureComplianceException($xsdErrorArguments[1], $xsdErrorArguments[0], $xsdErrorArguments[0], $xsdErrorArguments[2], $xsdErrorArguments[3]);
     }
 
-    private function getXsd($type)
+    private function getXsd(string $type): string
     {
         if (! isset($this->xsdCache[$type])) {
             $xsdFilename = \dirname(__DIR__) . '/xsd/' . $type;
@@ -65,8 +74,10 @@ final class Validator implements ValidatorInterface
             $xsd = \file_get_contents($xsdFilename);
 
             // Let's get rid of external HTTP call
-            $xmldsigFilename       = \dirname(__DIR__) . '/xsd/xmldsig-core-schema.xsd';
-            $this->xsdCache[$type] = \preg_replace('/(\bschemaLocation=")[^"]+"/', \sprintf('\1%s"', $xmldsigFilename), $xsd);
+            $xmldsigFilename = \dirname(__DIR__) . '/xsd/xmldsig-core-schema.xsd';
+            $xsdLocal        = \preg_replace('/(\bschemaLocation=")[^"]+"/', \sprintf('\1%s"', $xmldsigFilename), $xsd);
+            \assert(null !== $xsdLocal);
+            $this->xsdCache[$type] = $xsdLocal;
         }
 
         return $this->xsdCache[$type];

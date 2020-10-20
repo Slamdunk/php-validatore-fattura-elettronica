@@ -1,21 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SlamFatturaElettronica\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
+use SlamFatturaElettronica\Exception\InvalidXmlStructureException;
+use SlamFatturaElettronica\Exception\InvalidXsdStructureComplianceException;
 use SlamFatturaElettronica\Validator;
 
 /**
  * @covers \SlamFatturaElettronica\Validator
  */
-final class ValidatorTest extends PHPUnit_Framework_TestCase
+final class ValidatorTest extends TestCase
 {
-    /**
-     * @var Validator
-     */
-    private $validator;
+    private Validator $validator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->validator = new Validator();
     }
@@ -23,78 +24,84 @@ final class ValidatorTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getValidXmls
      */
-    public function testAssertValidXml($filename)
+    public function testAssertValidXml(string $filename): void
     {
         $xml = $this->getXmlContent($filename);
 
         $this->validator->assertValidXml($xml);
 
-        static::assertTrue(true);
+        self::assertTrue(true);
     }
 
-    public function getValidXmls()
+    /**
+     * @return string[][]
+     */
+    public function getValidXmls(): array
     {
-        return array(
-            array('ok_IT01234567890_FPA01.xml'),
-            array('ok_IT01234567890_FPA02.xml'),
-            array('ok_IT01234567890_FPA03.xml'),
-            array('ok_IT01234567890_FPR01.xml'),
-            array('ok_IT01234567890_FPR02.xml'),
-            array('ok_IT01234567890_FPR03.xml'),
-            array('ok_ITHVQWPH73P42H501Y_00023.xml'),
-            array('ok_ITHVQWPH73P42H501Y_X0024.xml'),
-            array('ok_bug_attribute_with_space.xml'),
-        );
+        return [
+            ['ok_IT01234567890_FPA01.xml'],
+            ['ok_IT01234567890_FPA02.xml'],
+            ['ok_IT01234567890_FPA03.xml'],
+            ['ok_IT01234567890_FPR01.xml'],
+            ['ok_IT01234567890_FPR02.xml'],
+            ['ok_IT01234567890_FPR03.xml'],
+            ['ok_ITHVQWPH73P42H501Y_00023.xml'],
+            ['ok_ITHVQWPH73P42H501Y_X0024.xml'],
+            ['ok_bug_attribute_with_space.xml'],
+        ];
     }
 
-    public function testAssertValidXmlWithType()
+    public function testAssertValidXmlWithType(): void
     {
-        static::markTestIncomplete('Missing valid example for Fattura Semplificata');
+        self::markTestIncomplete('Missing valid example for Fattura Semplificata');
 
+        /*
         $xml = $this->getXmlContent('ok_semplificata_IT01234567890.xml');
-
         $this->validator->assertValidXml($xml, Validator::XSD_FATTURA_SEMPLIFICATA_1_0);
-
-        static::assertTrue(true);
+        self::assertTrue(true);
+         */
     }
 
-    public function testAssertInvalidXml()
+    public function testAssertInvalidXml(): void
     {
         $xml = $this->getXmlContent('invalid_xml_tags.xml');
 
-        static::setExpectedException('SlamFatturaElettronica\\Exception\\InvalidXmlStructureException');
+        $this->expectException(InvalidXmlStructureException::class);
 
         $this->validator->assertValidXml($xml);
     }
 
-    public function testAssertInvalidXsdStructureCompliance()
+    public function testAssertInvalidXsdStructureCompliance(): void
     {
         $xml = $this->getXmlContent('invalid_xsd_structure_compliance.xml');
 
-        static::setExpectedException('SlamFatturaElettronica\\Exception\\InvalidXsdStructureComplianceException');
+        $this->expectException(InvalidXsdStructureComplianceException::class);
 
         $this->validator->assertValidXml($xml);
     }
 
-    private function getXmlContent($filename)
+    private function getXmlContent(string $filename): string
     {
-        return \file_get_contents(__DIR__ . '/TestAsset/' . $filename);
+        $content = \file_get_contents(__DIR__ . '/TestAsset/' . $filename);
+        self::assertNotFalse($content);
+
+        return $content;
     }
 
-    public function testAssertValidNotice()
+    public function testAssertValidNotice(): void
     {
         $xml = $this->getXmlContent('ok_IT01234567890_11111_EC_001.xml');
 
         $this->validator->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
 
-        static::assertTrue(true);
+        self::assertTrue(true);
     }
 
-    public function testAssertInvalidNotice()
+    public function testAssertInvalidNotice(): void
     {
         $xml = $this->getXmlContent('invalid_IT01234567890_11111_EC_001.xml');
 
-        static::setExpectedException('SlamFatturaElettronica\\Exception\\InvalidXsdStructureComplianceException');
+        $this->expectException(InvalidXsdStructureComplianceException::class);
 
         $this->validator->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
     }
