@@ -15,10 +15,11 @@
         "ext-libxml": "*"
     },
     "require-dev": {
-        "phpstan/phpstan": "^0.12.50",
-        "phpstan/phpstan-phpunit": "^0.12.16",
-        "phpunit/phpunit": "^9.4.2",
-        "slam/php-cs-fixer-extensions": "^2.0"
+        "malukenho/mcbumpface": "^1.1.5",
+        "phpstan/phpstan": "^0.12.86",
+        "phpstan/phpstan-phpunit": "^0.12.18",
+        "phpunit/phpunit": "^9.5.4",
+        "slam/php-cs-fixer-extensions": "^v3.0.1"
     },
     "autoload": {
         "psr-4": {
