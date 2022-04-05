@@ -1,6 +1,7 @@
 version: 2
 
 updates:
+
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
@@ -9,5 +10,15 @@ updates:
       include: "scope"
       prefix: "composer"
     labels:
-      - "dependency-update"
-    versioning-strategy: "widen"
+      - "enhancement"
+    versioning-strategy: "increase-if-necessary"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      include: "scope"
+      prefix: "github-actions"
+    labels:
+      - "enhancement"
