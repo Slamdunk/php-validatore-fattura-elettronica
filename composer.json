@@ -10,16 +10,16 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": ">=7.2.0",
         "ext-dom": "*",
         "ext-libxml": "*"
     },
     "require-dev": {
-        "malukenho/mcbumpface": "^1.1.5",
-        "phpstan/phpstan": "^0.12.86",
-        "phpstan/phpstan-phpunit": "^0.12.18",
-        "phpunit/phpunit": "^9.5.4",
-        "slam/php-cs-fixer-extensions": "^v3.0.1"
+        "friendsofphp/php-cs-fixer": "^v3.8.0",
+        "phpstan/phpstan": "^1.5.4",
+        "phpstan/phpstan-phpunit": "^1.1.0",
+        "phpstan/phpstan-strict-rules": "^1.1.0",
+        "phpunit/phpunit": "^8.5.26 || ^9.5.20"
     },
     "autoload": {
         "psr-4": {

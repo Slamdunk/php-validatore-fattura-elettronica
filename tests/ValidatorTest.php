@@ -11,16 +11,11 @@ use SlamFatturaElettronica\Validator;
 
 /**
  * @covers \SlamFatturaElettronica\Validator
+ *
+ * @internal
  */
 final class ValidatorTest extends TestCase
 {
-    private Validator $validator;
-
-    protected function setUp(): void
-    {
-        $this->validator = new Validator();
-    }
-
     /**
      * @dataProvider getValidXmls
      */
@@ -28,9 +23,7 @@ final class ValidatorTest extends TestCase
     {
         $xml = $this->getXmlContent($filename);
 
-        $this->validator->assertValidXml($xml);
-
-        self::assertTrue(true);
+        (new Validator())->assertValidXml($xml);
     }
 
     /**
@@ -53,7 +46,7 @@ final class ValidatorTest extends TestCase
 
     public function testAssertValidXmlWithType(): void
     {
-        self::markTestIncomplete('Missing valid example for Fattura Semplificata');
+        static::markTestIncomplete('Missing valid example for Fattura Semplificata');
 
         /*
         $xml = $this->getXmlContent('ok_semplificata_IT01234567890.xml');
@@ -68,7 +61,7 @@ final class ValidatorTest extends TestCase
 
         $this->expectException(InvalidXmlStructureException::class);
 
-        $this->validator->assertValidXml($xml);
+        (new Validator())->assertValidXml($xml);
     }
 
     public function testAssertInvalidXsdStructureCompliance(): void
@@ -77,24 +70,14 @@ final class ValidatorTest extends TestCase
 
         $this->expectException(InvalidXsdStructureComplianceException::class);
 
-        $this->validator->assertValidXml($xml);
-    }
-
-    private function getXmlContent(string $filename): string
-    {
-        $content = \file_get_contents(__DIR__ . '/TestAsset/' . $filename);
-        self::assertNotFalse($content);
-
-        return $content;
+        (new Validator())->assertValidXml($xml);
     }
 
     public function testAssertValidNotice(): void
     {
         $xml = $this->getXmlContent('ok_IT01234567890_11111_EC_001.xml');
 
-        $this->validator->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
-
-        self::assertTrue(true);
+        (new Validator())->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
     }
 
     public function testAssertInvalidNotice(): void
@@ -103,6 +86,14 @@ final class ValidatorTest extends TestCase
 
         $this->expectException(InvalidXsdStructureComplianceException::class);
 
-        $this->validator->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
+        (new Validator())->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
+    }
+
+    private function getXmlContent(string $filename): string
+    {
+        $content = file_get_contents(__DIR__.'/TestAsset/'.$filename);
+        static::assertNotFalse($content);
+
+        return $content;
     }
 }
