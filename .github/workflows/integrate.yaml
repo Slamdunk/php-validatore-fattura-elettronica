@@ -81,7 +81,7 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          coverage: "none"
+          coverage: "${{ matrix.code-coverage }}"
           php-version: "${{ matrix.php-version }}"
           extensions: zip, xmlreader, dom
           ini-values: zend.assertions=1,error_reporting=-1
