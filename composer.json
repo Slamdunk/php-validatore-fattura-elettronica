@@ -16,7 +16,6 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^v3.8.0",
-        "malukenho/mcbumpface": "^1.1.5",
         "phpstan/phpstan": "^1.5.4",
         "phpstan/phpstan-phpunit": "^1.1.0",
         "phpstan/phpstan-strict-rules": "^1.1.0",
@@ -30,11 +29,6 @@
     "autoload-dev": {
         "psr-4": {
             "SlamFatturaElettronica\\Tests\\": "tests/"
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "malukenho/mcbumpface": true
         }
     }
 }
