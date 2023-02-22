@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace SlamFatturaElettronica\Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SlamFatturaElettronica\Exception\InvalidXmlStructureException;
 use SlamFatturaElettronica\Exception\InvalidXsdStructureComplianceException;
 use SlamFatturaElettronica\Validator;
 
 /**
- * @covers \SlamFatturaElettronica\Validator
- *
  * @internal
  */
+#[CoversClass(Validator::class)]
 final class ValidatorTest extends TestCase
 {
-    /**
-     * @dataProvider getValidXmls
-     */
+    #[DataProvider('getValidXmls')]
     public function testAssertValidXml(string $filename): void
     {
         $xml = $this->getXmlContent($filename);
@@ -29,7 +28,7 @@ final class ValidatorTest extends TestCase
     /**
      * @return string[][]
      */
-    public function getValidXmls(): array
+    public static function getValidXmls(): array
     {
         return [
             ['ok_IT01234567890_FPA01.xml'],
@@ -46,7 +45,7 @@ final class ValidatorTest extends TestCase
 
     public function testAssertValidXmlWithType(): void
     {
-        static::markTestIncomplete('Missing valid example for Fattura Semplificata');
+        self::markTestIncomplete('Missing valid example for Fattura Semplificata');
 
         /*
         $xml = $this->getXmlContent('ok_semplificata_IT01234567890.xml');
@@ -91,8 +90,8 @@ final class ValidatorTest extends TestCase
 
     private function getXmlContent(string $filename): string
     {
-        $content = file_get_contents(__DIR__.'/TestAsset/'.$filename);
-        static::assertNotFalse($content);
+        $content = \file_get_contents(__DIR__ . '/TestAsset/' . $filename);
+        self::assertNotFalse($content);
 
         return $content;
     }

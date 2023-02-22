@@ -1,0 +1,51 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$message of class SlamFatturaElettronica\\\\Exception\\\\InvalidXmlStructureException constructor expects string, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of class SlamFatturaElettronica\\\\Exception\\\\InvalidXsdStructureComplianceException constructor expects string, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#2 \\$code of class SlamFatturaElettronica\\\\Exception\\\\InvalidXmlStructureException constructor expects int, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#2 \\$code of class SlamFatturaElettronica\\\\Exception\\\\InvalidXsdStructureComplianceException constructor expects int, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#3 \\$severity of class SlamFatturaElettronica\\\\Exception\\\\InvalidXmlStructureException constructor expects int, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#3 \\$severity of class SlamFatturaElettronica\\\\Exception\\\\InvalidXsdStructureComplianceException constructor expects int, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#4 \\$filename of class SlamFatturaElettronica\\\\Exception\\\\InvalidXmlStructureException constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#4 \\$filename of class SlamFatturaElettronica\\\\Exception\\\\InvalidXsdStructureComplianceException constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#5 \\$line of class SlamFatturaElettronica\\\\Exception\\\\InvalidXmlStructureException constructor expects int\\|null, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
+
+		-
+			message: "#^Parameter \\#5 \\$line of class SlamFatturaElettronica\\\\Exception\\\\InvalidXsdStructureComplianceException constructor expects int\\|null, mixed given\\.$#"
+			count: 1
+			path: lib/Validator.php
