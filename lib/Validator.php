@@ -19,9 +19,7 @@ final class Validator implements ValidatorInterface
     public const XSD_MESSAGGI_1_1    = 'MessaggiTypes_v1.1.xsd';
     public const XSD_MESSAGGI_LATEST = 'MessaggiTypes_v1.1.xsd';
 
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     private array $xsdCache = [];
 
     /**

@@ -6,6 +6,4 @@ namespace SlamFatturaElettronica\Exception;
 
 use ErrorException;
 
-final class InvalidXmlStructureException extends ErrorException implements ExceptionInterface
-{
-}
+final class InvalidXmlStructureException extends ErrorException implements ExceptionInterface {}

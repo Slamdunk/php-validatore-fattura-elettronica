@@ -25,9 +25,7 @@ final class ValidatorTest extends TestCase
         (new Validator())->assertValidXml($xml);
     }
 
-    /**
-     * @return string[][]
-     */
+    /** @return string[][] */
     public static function getValidXmls(): array
     {
         return [
