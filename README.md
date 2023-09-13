@@ -27,6 +27,23 @@ $feValidator->assertValidXml('<xml ...>');
 //      SlamFatturaElettronica\Exception\InvalidXsdStructureComplianceException
 ```
 
+## Elencare tutti gli errori rilevati
+
+```php
+use SlamFatturaElettronica\Validator;
+
+$feValidator = new Validator();
+$feValidator->getAllErrors('<xml ...>');
+
+// Restituisce un array contentente gli errori rilevati. Se non ci sono errori l'array sarà vuoto:
+// Array
+// (
+//     [0] => DOMDocument::schemaValidateSource(): Element 'IdPaese': [facet 'pattern'] The value '' is not accepted by the pattern '[A-Z]{2}'.
+//     [1] => DOMDocument::schemaValidateSource(): Element 'Numero': [facet 'pattern'] The value '' is not accepted by the pattern '(\p{IsBasicLatin}{1,20})'.
+// )
+
+```
+
 ### Notifiche
 
 ```php
