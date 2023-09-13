@@ -64,7 +64,7 @@ final class Validator implements ValidatorInterface
     }
 
     /**
-     * @return array <string, string> Array of errors. An empty array will be returned if there are no errors
+     * @return array <int, string> Array of errors. An empty array will be returned if there are no errors
      */
     public function getAllErrors(string $xml, string $type = self::XSD_FATTURA_ORDINARIA_LATEST): array
     {
@@ -85,7 +85,7 @@ final class Validator implements ValidatorInterface
 
         restore_error_handler();
 
-        if (!$result && !empty($errors)) {
+        if (!$result && count($errors) > 0) {
             return $errors;
         }
 
