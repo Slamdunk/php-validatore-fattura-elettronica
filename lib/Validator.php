@@ -63,19 +63,17 @@ final class Validator implements ValidatorInterface
         throw new Exception\InvalidXsdStructureComplianceException($xsdErrorArguments[1], $xsdErrorArguments[0], $xsdErrorArguments[0], $xsdErrorArguments[2], $xsdErrorArguments[3]);
     }
 
-    /**
-     * @return array <int, string> Array of errors. An empty array will be returned if there are no errors
-     */
+    /** @return array <int, string> Array of errors. An empty array will be returned if there are no errors */
     public function getAllErrors(string $xml, string $type = self::XSD_FATTURA_ORDINARIA_LATEST): array
     {
-        $dom = new DOMDocument();
+        $dom          = new DOMDocument();
         $dom->recover = true;
-        $dom->loadXML($xml, LIBXML_NOERROR);
+        $dom->loadXML($xml, \LIBXML_NOERROR);
         $xsd = $this->getXsd($type);
 
         $errors = [];
 
-        set_error_handler(static function (int $errno, string $errstr = '', string $errfile = '', int $errline = 0) use (&$errors): bool {
+        \set_error_handler(static function (int $errno, string $errstr = '', string $errfile = '', int $errline = 0) use (& $errors): bool {
             $errors[] = $errstr;
 
             return true;
@@ -83,9 +81,9 @@ final class Validator implements ValidatorInterface
 
         $result = $dom->schemaValidateSource($xsd);
 
-        restore_error_handler();
+        \restore_error_handler();
 
-        if (!$result && count($errors) > 0) {
+        if (! $result && \count($errors) > 0) {
             return $errors;
         }
 
