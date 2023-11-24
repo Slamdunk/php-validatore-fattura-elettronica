@@ -38,7 +38,6 @@ final class ValidatorTest extends TestCase
             ['ok_ITHVQWPH73P42H501Y_00023.xml'],
             ['ok_ITHVQWPH73P42H501Y_X0024.xml'],
             ['ok_bug_attribute_with_space.xml'],
-            ['ok_bug_attribute_with_space.xml'],
         ];
     }
 
