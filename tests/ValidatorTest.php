@@ -38,6 +38,7 @@ final class ValidatorTest extends TestCase
             ['ok_ITHVQWPH73P42H501Y_00023.xml'],
             ['ok_ITHVQWPH73P42H501Y_X0024.xml'],
             ['ok_bug_attribute_with_space.xml'],
+            ['ok_bug_attribute_with_space.xml'],
         ];
     }
 
@@ -92,5 +93,21 @@ final class ValidatorTest extends TestCase
         self::assertNotFalse($content);
 
         return $content;
+    }
+
+    public function testGetAllErrorsNotEmpty(): void
+    {
+        $xml = $this->getXmlContent('invalid_xsd_content.xml');
+
+        $errors = (new Validator())->getAllErrors($xml);
+        self::assertNotEmpty($errors);
+    }
+
+    public function testGetAllErrorsIsEmpty(): void
+    {
+        $xml = $this->getXmlContent('ok_IT01234567890_FPR01.xml');
+
+        $errors = (new Validator())->getAllErrors($xml);
+        self::assertEmpty($errors);
     }
 }
