@@ -94,7 +94,15 @@ final class ValidatorTest extends TestCase
         return $content;
     }
 
-    public function testGetAllErrorsNotEmpty(): void
+    public function testGetAllErrorsXmlNotEmpty(): void
+    {
+        $xml = $this->getXmlContent('invalid_xml_tags.xml');
+
+        $errors = (new Validator())->getAllErrors($xml);
+        self::assertNotEmpty($errors);
+    }
+
+    public function testGetAllErrorsXsdNotEmpty(): void
     {
         $xml = $this->getXmlContent('invalid_xsd_content.xml');
 

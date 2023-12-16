@@ -79,6 +79,22 @@ final class Validator implements ValidatorInterface
             return true;
         });
 
+        $dom->loadXML($xml);
+
+        \restore_error_handler();
+
+        if (\count($errors) > 0) {
+            return $errors;
+        }
+
+        $errors = [];
+
+        \set_error_handler(static function (int $errno, string $errstr = '', string $errfile = '', int $errline = 0) use (& $errors): bool {
+            $errors[] = $errstr;
+
+            return true;
+        });
+
         $result = $dom->schemaValidateSource($xsd);
 
         \restore_error_handler();
