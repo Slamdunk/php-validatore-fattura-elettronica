@@ -7,6 +7,7 @@ namespace SlamFatturaElettronica\Tests;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use SlamFatturaElettronica\Exception\ExceptionInterface;
 use SlamFatturaElettronica\Exception\InvalidXmlStructureException;
 use SlamFatturaElettronica\Exception\InvalidXsdStructureComplianceException;
 use SlamFatturaElettronica\Validator;
@@ -17,6 +18,7 @@ use SlamFatturaElettronica\Validator;
 #[CoversClass(Validator::class)]
 final class ValidatorTest extends TestCase
 {
+    /** @param non-empty-string $filename */
     #[DataProvider('getValidXmls')]
     public function testAssertValidXml(string $filename): void
     {
@@ -25,7 +27,7 @@ final class ValidatorTest extends TestCase
         (new Validator())->assertValidXml($xml);
     }
 
-    /** @return string[][] */
+    /** @return list<list<non-empty-string>> */
     public static function getValidXmls(): array
     {
         return [
@@ -57,6 +59,7 @@ final class ValidatorTest extends TestCase
         $xml = $this->getXmlContent('invalid_xml_tags.xml');
 
         $this->expectException(InvalidXmlStructureException::class);
+        $this->expectExceptionMessage('DOMDocument::loadXML(): Namespace prefix ns2 on FatturaElettronica is not defined in Entity, line: 1');
 
         (new Validator())->assertValidXml($xml);
     }
@@ -66,6 +69,7 @@ final class ValidatorTest extends TestCase
         $xml = $this->getXmlContent('invalid_xsd_structure_compliance.xml');
 
         $this->expectException(InvalidXsdStructureComplianceException::class);
+        $this->expectExceptionMessage('DOMDocument::schemaValidateSource(): Element \'IdTrasmittente\': Missing child element(s). Expected is ( IdCodice ).');
 
         (new Validator())->assertValidXml($xml);
     }
@@ -86,35 +90,55 @@ final class ValidatorTest extends TestCase
         (new Validator())->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
     }
 
+    /**
+     * @param non-empty-string $filename
+     *
+     * @return non-empty-string
+     */
     private function getXmlContent(string $filename): string
     {
         $content = \file_get_contents(__DIR__ . '/TestAsset/' . $filename);
         self::assertNotFalse($content);
+        self::assertNotEmpty($content);
 
         return $content;
     }
 
     public function testGetAllErrorsXmlNotEmpty(): void
     {
-        $xml = $this->getXmlContent('invalid_xml_tags.xml');
+        $xml        = $this->getXmlContent('invalid_xml_tags.xml');
+        $exceptions = (new Validator())->getAllExceptions($xml);
+        $exceptions = \array_map(static function (ExceptionInterface $exception): array {
+            return [$exception::class, $exception->getMessage()];
+        }, $exceptions);
 
-        $errors = (new Validator())->getAllErrors($xml);
-        self::assertNotEmpty($errors);
+        self::assertSame([
+            [InvalidXmlStructureException::class, 'DOMDocument::loadXML(): Namespace prefix ns2 on FatturaElettronica is not defined in Entity, line: 1'],
+            [InvalidXmlStructureException::class, 'DOMDocument::loadXML(): Couldn\'t find end of Start Tag FatturaElettronica line 1 in Entity, line: 1'],
+            [InvalidXsdStructureComplianceException::class, 'DOMDocument::schemaValidateSource(): Element \'ns2:FatturaElettronica\': No matching global declaration available for the validation root.'],
+        ], $exceptions);
     }
 
     public function testGetAllErrorsXsdNotEmpty(): void
     {
-        $xml = $this->getXmlContent('invalid_xsd_content.xml');
+        $xml        = $this->getXmlContent('invalid_xsd_content.xml');
+        $exceptions = (new Validator())->getAllExceptions($xml);
+        $exceptions = \array_map(static function (ExceptionInterface $exception): array {
+            return [$exception::class, $exception->getMessage()];
+        }, $exceptions);
 
-        $errors = (new Validator())->getAllErrors($xml);
-        self::assertNotEmpty($errors);
+        self::assertSame([
+            [InvalidXsdStructureComplianceException::class, 'DOMDocument::schemaValidateSource(): Element \'IdPaese\': [facet \'pattern\'] The value \'ITALIA\' is not accepted by the pattern \'[A-Z]{2}\'.'],
+            [InvalidXsdStructureComplianceException::class, 'DOMDocument::schemaValidateSource(): Element \'ImponibileImporto\': [facet \'pattern\'] The value \'5\' is not accepted by the pattern \'[\\-]?[0-9]{1,11}\\.[0-9]{2}\'.'],
+            [InvalidXsdStructureComplianceException::class, 'DOMDocument::schemaValidateSource(): Element \'DataScadenzaPagamento\': \'2030\' is not a valid value of the atomic type \'xs:date\'.'],
+        ], $exceptions);
     }
 
     public function testGetAllErrorsIsEmpty(): void
     {
-        $xml = $this->getXmlContent('ok_IT01234567890_FPR01.xml');
+        $xml    = $this->getXmlContent('ok_IT01234567890_FPR01.xml');
+        $errors = (new Validator())->getAllExceptions($xml);
 
-        $errors = (new Validator())->getAllErrors($xml);
-        self::assertEmpty($errors);
+        self::assertSame([], $errors);
     }
 }
