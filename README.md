@@ -27,6 +27,17 @@ $feValidator->assertValidXml('<xml ...>');
 //      SlamFatturaElettronica\Exception\InvalidXsdStructureComplianceException
 ```
 
+## Elencare tutte le eccezioni
+
+```php
+use SlamFatturaElettronica\Validator;
+
+$feValidator = new Validator();
+$feValidator->getAllExceptions('<xml ...>');
+
+// Restituisce un array contentente le eccezioni rilevati. Se non ci sono errori l'array sarà vuoto:
+```
+
 ### Notifiche
 
 ```php
