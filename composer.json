@@ -20,7 +20,7 @@
         "phpstan/phpstan-phpunit": "^1.4.0",
         "phpstan/phpstan-strict-rules": "^1.6.0",
         "phpunit/phpunit": "^11.2.2",
-        "slam/php-cs-fixer-extensions": "^3.10.0"
+        "slam/php-cs-fixer-extensions": "^3.11.1"
     },
     "autoload": {
         "psr-4": {
