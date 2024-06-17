@@ -129,7 +129,7 @@ final class ValidatorTest extends TestCase
 
         self::assertSame([
             [InvalidXsdStructureComplianceException::class, 'DOMDocument::schemaValidateSource(): Element \'IdPaese\': [facet \'pattern\'] The value \'ITALIA\' is not accepted by the pattern \'[A-Z]{2}\'.'],
-            [InvalidXsdStructureComplianceException::class, 'DOMDocument::schemaValidateSource(): Element \'ImponibileImporto\': [facet \'pattern\'] The value \'5\' is not accepted by the pattern \'[\\-]?[0-9]{1,11}\\.[0-9]{2}\'.'],
+            [InvalidXsdStructureComplianceException::class, 'DOMDocument::schemaValidateSource(): Element \'ImponibileImporto\': [facet \'pattern\'] The value \'5\' is not accepted by the pattern \'[\-]?[0-9]{1,11}\.[0-9]{2}\'.'],
             [InvalidXsdStructureComplianceException::class, 'DOMDocument::schemaValidateSource(): Element \'DataScadenzaPagamento\': \'2030\' is not a valid value of the atomic type \'xs:date\'.'],
         ], $exceptions);
     }
