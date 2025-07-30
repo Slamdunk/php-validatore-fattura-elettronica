@@ -19,7 +19,7 @@ use SlamFatturaElettronica\Validator;
 final class ValidatorTest extends TestCase
 {
     /** @param non-empty-string $filename */
-    #[DataProvider('getValidXmls')]
+    #[DataProvider('provideAssertValidXmlCases')]
     public function testAssertValidXml(string $filename): void
     {
         $xml = $this->getXmlContent($filename);
@@ -28,7 +28,7 @@ final class ValidatorTest extends TestCase
     }
 
     /** @return list<list<non-empty-string>> */
-    public static function getValidXmls(): array
+    public static function provideAssertValidXmlCases(): iterable
     {
         return [
             ['ok_IT01234567890_FPA01.xml'],
