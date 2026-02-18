@@ -19,7 +19,7 @@
         "phpstan/phpstan": "^2.1.39",
         "phpstan/phpstan-phpunit": "^2.0.16",
         "phpstan/phpstan-strict-rules": "^2.0.10",
-        "phpunit/phpunit": "^13.0.3",
+        "phpunit/phpunit": "^13.0.5",
         "slam/php-cs-fixer-extensions": "^3.14.0"
     },
     "autoload": {
