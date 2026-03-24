@@ -24,7 +24,7 @@ final class ValidatorTest extends TestCase
     {
         $xml = $this->getXmlContent($filename);
 
-        (new Validator())->assertValidXml($xml);
+        new Validator()->assertValidXml($xml);
     }
 
     /** @return list<list<non-empty-string>> */
@@ -43,16 +43,16 @@ final class ValidatorTest extends TestCase
         ];
     }
 
+    /*
     public function testAssertValidXmlWithType(): void
     {
         self::markTestIncomplete('Missing valid example for Fattura Semplificata');
 
-        /*
         $xml = $this->getXmlContent('ok_semplificata_IT01234567890.xml');
         $this->validator->assertValidXml($xml, Validator::XSD_FATTURA_SEMPLIFICATA_1_0);
         self::assertTrue(true);
-         */
     }
+     */
 
     public function testAssertInvalidXml(): void
     {
@@ -61,7 +61,7 @@ final class ValidatorTest extends TestCase
         $this->expectException(InvalidXmlStructureException::class);
         $this->expectExceptionMessage('DOMDocument::loadXML(): Namespace prefix ns2 on FatturaElettronica is not defined in Entity, line: 1');
 
-        (new Validator())->assertValidXml($xml);
+        new Validator()->assertValidXml($xml);
     }
 
     public function testAssertInvalidXsdStructureCompliance(): void
@@ -71,14 +71,14 @@ final class ValidatorTest extends TestCase
         $this->expectException(InvalidXsdStructureComplianceException::class);
         $this->expectExceptionMessage('DOMDocument::schemaValidateSource(): Element \'IdTrasmittente\': Missing child element(s). Expected is ( IdCodice ).');
 
-        (new Validator())->assertValidXml($xml);
+        new Validator()->assertValidXml($xml);
     }
 
     public function testAssertValidNotice(): void
     {
         $xml = $this->getXmlContent('ok_IT01234567890_11111_EC_001.xml');
 
-        (new Validator())->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
+        new Validator()->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
     }
 
     public function testAssertInvalidNotice(): void
@@ -87,7 +87,7 @@ final class ValidatorTest extends TestCase
 
         $this->expectException(InvalidXsdStructureComplianceException::class);
 
-        (new Validator())->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
+        new Validator()->assertValidXml($xml, Validator::XSD_MESSAGGI_LATEST);
     }
 
     /**
@@ -107,7 +107,7 @@ final class ValidatorTest extends TestCase
     public function testGetAllErrorsXmlNotEmpty(): void
     {
         $xml        = $this->getXmlContent('invalid_xml_tags.xml');
-        $exceptions = (new Validator())->getAllExceptions($xml);
+        $exceptions = new Validator()->getAllExceptions($xml);
         $exceptions = \array_map(static function (ExceptionInterface $exception): array {
             return [$exception::class, $exception->getMessage()];
         }, $exceptions);
@@ -122,7 +122,7 @@ final class ValidatorTest extends TestCase
     public function testGetAllErrorsXsdNotEmpty(): void
     {
         $xml        = $this->getXmlContent('invalid_xsd_content.xml');
-        $exceptions = (new Validator())->getAllExceptions($xml);
+        $exceptions = new Validator()->getAllExceptions($xml);
         $exceptions = \array_map(static function (ExceptionInterface $exception): array {
             return [$exception::class, $exception->getMessage()];
         }, $exceptions);
@@ -137,7 +137,7 @@ final class ValidatorTest extends TestCase
     public function testGetAllErrorsIsEmpty(): void
     {
         $xml    = $this->getXmlContent('ok_IT01234567890_FPR01.xml');
-        $errors = (new Validator())->getAllExceptions($xml);
+        $errors = new Validator()->getAllExceptions($xml);
 
         self::assertSame([], $errors);
     }
