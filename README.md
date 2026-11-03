@@ -3,7 +3,6 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/slam/php-validatore-fattura-elettronica.svg)](https://packagist.org/packages/slam/php-validatore-fattura-elettronica)
 [![Downloads](https://img.shields.io/packagist/dt/slam/php-validatore-fattura-elettronica.svg)](https://packagist.org/packages/slam/php-validatore-fattura-elettronica)
 [![Integrate](https://github.com/Slamdunk/php-validatore-fattura-elettronica/workflows/Integrate/badge.svg?branch=master)](https://github.com/Slamdunk/php-validatore-fattura-elettronica/actions)
-[![Code Coverage](https://codecov.io/gh/Slamdunk/php-validatore-fattura-elettronica/coverage.svg?branch=master)](https://codecov.io/gh/Slamdunk/php-validatore-fattura-elettronica?branch=master)
 
 **WARNING**: This package only works for _ITALIAN_ standards!
 
